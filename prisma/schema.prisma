@@ -1,0 +1,128 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Ofertas Laborales
+model Job {
+  id                String       @id @default(cuid())
+  title             String
+  slug              String       @unique
+  description       String
+  requirements      String
+  benefits          String?
+  companyName       String
+  companyId         String?
+  company           Company?     @relation(fields: [companyId], references: [id])
+  
+  // Ubicación precisa en La Paz / El Alto
+  city              String       // "La Paz" | "El Alto"
+  zone              String       // "Centro", "Sopocachi", "Miraflores", "Zona Sur", "El Alto Ceja", "Ciudad Satélite", etc.
+  address           String?
+  
+  // Clasificación laboral
+  category          String       // Ventas, Administración, Gastronomía, Tecnología, Salud, etc.
+  experienceLevel   String       // "Sin experiencia", "Pasantía", "1 a 2 años", "Más de 2 años"
+  workSchedule      String       // "Tiempo Completo", "Medio Tiempo", "Por Horas", "Fines de Semana"
+  modality          String       // "Presencial", "Híbrido", "Remoto"
+  
+  // Compensación económica (opcional, sin inventar datos)
+  salaryMin         Float?
+  salaryMax         Float?
+  salaryCurrency    String       @default("BOB")
+  salaryPeriod      String?      // "Mensual", "Quincenal", "Por hora"
+  
+  // Canal y condiciones de postulación
+  applyMethod       String       // "Correo Electrónico", "WhatsApp Oficial", "Enlace Externo", "Presencial"
+  applyContact      String       // Email, teléfono o URL oficial
+  instructions      String?
+  
+  // Procedencia y verificación (Ley 263 / Calidad editorial)
+  sourceName        String       // "Publicación Directa", "Convocatoria Municipal SMILE", "Web Institucional"
+  sourceUrl         String?
+  verificationBadge String       // "EMPRESA_VERIFICADA", "CONVOCATORIA_OFICIAL", "REVISION_EDITORIAL"
+  reviewStatus      String       @default("PENDIENTE") // "PENDIENTE", "APROBADA", "CORRECCION", "RECHAZADA", "VENCIDA", "RETIRADA"
+  isVigente         Boolean      @default(true)
+  
+  // Fechas auditables
+  publishedAt       DateTime     @default(now())
+  expiresAt         DateTime?
+  lastVerifiedAt    DateTime     @default(now())
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  
+  // Relaciones
+  reports           Report[]
+
+  @@index([city, zone])
+  @@index([category])
+  @@index([experienceLevel])
+  @@index([workSchedule])
+  @@index([reviewStatus, isVigente])
+}
+
+// Empresas u Organizaciones Oferentes
+model Company {
+  id              String    @id @default(cuid())
+  name            String    @unique
+  slug            String    @unique
+  description     String?
+  website         String?
+  city            String    @default("La Paz")
+  isVerified      Boolean   @default(false)
+  verifiedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  jobs            Job[]
+}
+
+// Reportes y Denuncias Ciudadanas
+model Report {
+  id              String    @id @default(cuid())
+  jobId           String
+  job             Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  reason          String    // "FRAUDE_PIRAMIDAL", "PIDEN_DINERO", "OFERTA_VENCIDA", "DATOS_INCORRECTOS", "OTRO"
+  details         String
+  reporterIpHash  String?
+  status          String    @default("PENDIENTE") // "PENDIENTE", "EN_REVISION", "RETIRADA", "DESCARTADA"
+  resolutionNotes String?
+  resolvedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([jobId])
+  @@index([status])
+}
+
+// Usuarios del Panel Administrativo
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  passwordHash  String
+  name          String
+  role          String     @default("MODERADOR") // "ADMIN", "MODERADOR"
+  isActive      Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  logs          AuditLog[]
+}
+
+// Bitácora de Auditoría
+model AuditLog {
+  id          String    @id @default(cuid())
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+  action      String    // "CREAR_OFERTA", "APROBAR_OFERTA", "RETIRAR_OFERTA", "RESOLVER_REPORTE", etc.
+  targetType  String    // "JOB", "REPORT", "COMPANY"
+  targetId    String
+  details     String?
+  createdAt   DateTime  @default(now())
+
+  @@index([createdAt])
+}
