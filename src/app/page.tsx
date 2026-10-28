@@ -5,7 +5,8 @@ import { JobCard } from '@/components/search/JobCard';
 import { prisma } from '@/lib/prisma';
 import { 
   Briefcase, Sparkles, Clock, GraduationCap, MapPin, 
-  ShieldCheck, ArrowRight, CheckCircle2, ChevronRight 
+  ShieldCheck, ArrowRight, CheckCircle2, ChevronRight,
+  Building2, Users, AlertTriangle, Shield
 } from 'lucide-react';
 import { JOB_CATEGORIES } from '@/lib/data/categories';
 
@@ -27,141 +28,135 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="space-y-16 pb-16">
-      {/* 1. Hero Section */}
-      <section className="relative bg-gradient-to-b from-brand-700 via-brand-600 to-brand-800 text-white pt-16 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] opacity-10"></div>
+    <div className="space-y-16 pb-20">
+      {/* 1. Hero Section con Gradiente de Alto Impacto */}
+      <section className="relative bg-gradient-to-b from-brand-900 via-brand-800 to-slate-900 text-white pt-16 sm:pt-20 pb-20 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Patrón sutil de fondo */}
+        <div className="absolute inset-0 bg-[radial-gradient(#38a5f8_1px,transparent_1px)] [background-size:24px_24px] opacity-15"></div>
+        
+        {/* Círculo luminoso decorativo */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
         <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-inner">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Ofertas laborales 100% verificadas para La Paz y El Alto</span>
+            <span>Convocatorias verificadas para La Paz y El Alto</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight sm:leading-none">
             Encuentra tu próximo empleo <br className="hidden sm:inline" />
-            <span className="text-amber-300">sin engaños ni cobros</span> en Bolivia
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-200 to-yellow-400">
+              sin cobros ni engaños
+            </span> en Bolivia
           </h1>
 
-          <p className="text-slate-200 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Plataforma con revisión editorial obligatoria. Filtra por Teleférico, zonas urbanas, oportunidades sin experiencia y convocatorias oficiales.
+          <p className="text-slate-200 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed font-normal">
+            Plataforma comunitaria con revisión editorial obligatoria. Filtra por Teleférico, zonas urbanas, oportunidades sin experiencia previa y convocatorias oficiales.
           </p>
 
           {/* Buscador Integrado */}
-          <div className="pt-4">
+          <div className="pt-3">
             <SearchBar />
           </div>
 
-          {/* Accesos rápidos de búsqueda */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
-            <span className="text-slate-300 font-medium">Búsquedas populares:</span>
-            <Link 
-              href="/sin-experiencia" 
-              className="bg-white/15 hover:bg-white/25 text-white px-3 py-1 rounded-full font-semibold transition-colors flex items-center gap-1"
-            >
-              <Sparkles className="w-3 h-3 text-emerald-300" /> Sin experiencia
-            </Link>
-            <Link 
-              href="/medio-tiempo" 
-              className="bg-white/15 hover:bg-white/25 text-white px-3 py-1 rounded-full font-semibold transition-colors flex items-center gap-1"
-            >
-              <Clock className="w-3 h-3 text-amber-300" /> Medio tiempo
-            </Link>
-            <Link 
-              href="/pasantias" 
-              className="bg-white/15 hover:bg-white/25 text-white px-3 py-1 rounded-full font-semibold transition-colors flex items-center gap-1"
-            >
-              <GraduationCap className="w-3 h-3 text-sky-300" /> Pasantías universitarias
-            </Link>
-            <Link 
-              href="/empleos-el-alto" 
-              className="bg-white/15 hover:bg-white/25 text-white px-3 py-1 rounded-full font-semibold transition-colors flex items-center gap-1"
-            >
-              <MapPin className="w-3 h-3 text-rose-300" /> El Alto Ceja y 16 de Julio
-            </Link>
+          {/* Franja de micro-atributos de confianza */}
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs font-medium text-slate-300">
+            <span className="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> 100% Gratuito (Ley 263)
+            </span>
+            <span className="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+              <MapPin className="w-3.5 h-3.5 text-rose-400" /> La Paz & El Alto
+            </span>
+            <span className="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+              <Shield className="w-3.5 h-3.5 text-amber-400" /> Verificación Humana
+            </span>
+            <span className="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+              <Sparkles className="w-3.5 h-3.5 text-sky-400" /> Foco Primer Empleo
+            </span>
           </div>
         </div>
       </section>
 
       {/* 2. Sección de Oportunidades Clave (Tarjetas de Acceso Rápido) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link
             href="/sin-experiencia"
-            className="group bg-white p-6 rounded-2xl border border-slate-200 hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-between"
+            className="group bg-white p-6 rounded-3xl border border-slate-200/90 shadow-card hover:shadow-card-hover hover:-translate-y-1 hover:border-emerald-300 transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Sparkles className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <Sparkles className="w-6 h-6" />
               </div>
-              <h3 className="font-extrabold text-slate-900 group-hover:text-emerald-700 text-base mb-1">
+              <h3 className="font-extrabold text-slate-900 group-hover:text-emerald-700 text-base mb-1.5 transition-colors">
                 Primer Empleo & Sin Experiencia
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Vacantes que capacitan en el puesto, sin exigencia de años previos. Ideal para jóvenes.
+                Vacantes que capacitan en el puesto. Sin exigencia de años previos. Ideal para bachilleres y jóvenes.
               </p>
             </div>
             <div className="pt-4 flex items-center text-xs font-bold text-emerald-700 gap-1">
-              Ver ofertas <ChevronRight className="w-3.5 h-3.5" />
+              Ver ofertas <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             href="/empleos-el-alto"
-            className="group bg-white p-6 rounded-2xl border border-slate-200 hover:border-brand-300 hover:shadow-md transition-all flex flex-col justify-between"
+            className="group bg-white p-6 rounded-3xl border border-slate-200/90 shadow-card hover:shadow-card-hover hover:-translate-y-1 hover:border-brand-300 transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-blue-100 text-brand-700 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <MapPin className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <MapPin className="w-6 h-6" />
               </div>
-              <h3 className="font-extrabold text-slate-900 group-hover:text-brand-700 text-base mb-1">
+              <h3 className="font-extrabold text-slate-900 group-hover:text-brand-700 text-base mb-1.5 transition-colors">
                 Convocatorias en El Alto
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Oportunidades en La Ceja, Satélite, Río Seco, 16 de Julio y parques industriales.
+                Oportunidades en La Ceja, Satélite, Río Seco, 16 de Julio, Villa Adela y parques industriales.
               </p>
             </div>
             <div className="pt-4 flex items-center text-xs font-bold text-brand-700 gap-1">
-              Ver ofertas en El Alto <ChevronRight className="w-3.5 h-3.5" />
+              Ver en El Alto <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             href="/empleos-la-paz"
-            className="group bg-white p-6 rounded-2xl border border-slate-200 hover:border-brand-300 hover:shadow-md transition-all flex flex-col justify-between"
+            className="group bg-white p-6 rounded-3xl border border-slate-200/90 shadow-card hover:shadow-card-hover hover:-translate-y-1 hover:border-brand-300 transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Building2Icon className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <Building2 className="w-6 h-6" />
               </div>
-              <h3 className="font-extrabold text-slate-900 group-hover:text-indigo-700 text-base mb-1">
+              <h3 className="font-extrabold text-slate-900 group-hover:text-indigo-700 text-base mb-1.5 transition-colors">
                 Convocatorias en La Paz
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Puestos en el Centro, Sopocachi, Miraflores, Obrajes y Calacoto.
+                Puestos en Centro, Sopocachi, Miraflores, Obrajes y Calacoto, con acceso cercano a Mi Teleférico.
               </p>
             </div>
             <div className="pt-4 flex items-center text-xs font-bold text-indigo-700 gap-1">
-              Ver ofertas en La Paz <ChevronRight className="w-3.5 h-3.5" />
+              Ver en La Paz <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             href="/medio-tiempo"
-            className="group bg-white p-6 rounded-2xl border border-slate-200 hover:border-amber-300 hover:shadow-md transition-all flex flex-col justify-between"
+            className="group bg-white p-6 rounded-3xl border border-slate-200/90 shadow-card hover:shadow-card-hover hover:-translate-y-1 hover:border-amber-300 transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Clock className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <Clock className="w-6 h-6" />
               </div>
-              <h3 className="font-extrabold text-slate-900 group-hover:text-amber-700 text-base mb-1">
+              <h3 className="font-extrabold text-slate-900 group-hover:text-amber-800 text-base mb-1.5 transition-colors">
                 Medio Tiempo & Turnos Flexibles
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Horarios compatibles con estudios universitarios en UMSA, UPEA o institutos.
+                Horarios compatibles con estudios universitarios en UMSA, UPEA o institutos técnicos.
               </p>
             </div>
             <div className="pt-4 flex items-center text-xs font-bold text-amber-700 gap-1">
-              Ver medio tiempo <ChevronRight className="w-3.5 h-3.5" />
+              Ver medio tiempo <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
         </div>
@@ -171,11 +166,11 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md mb-2">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-lg mb-2 border border-brand-100">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Vigencia y Procedencia Auditada
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Ofertas Laborales Recientes
             </h2>
             <p className="text-xs sm:text-sm text-slate-500">
@@ -184,9 +179,9 @@ export default async function HomePage() {
           </div>
           <Link
             href="/empleos"
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-600 hover:text-brand-700 group"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-brand-600 hover:text-brand-700 group bg-brand-50 hover:bg-brand-100 px-3.5 py-2 rounded-xl transition-all"
           >
-            Explorar todas las vacantes con filtros
+            Explorar todas las vacantes
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -198,7 +193,7 @@ export default async function HomePage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-white rounded-2xl border border-slate-200 p-8 space-y-3">
+          <div className="text-center py-12 bg-white rounded-3xl border border-slate-200 p-8 space-y-3">
             <Briefcase className="w-12 h-12 text-slate-300 mx-auto" />
             <h3 className="font-bold text-slate-800">No hay ofertas publicadas en este momento</h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
@@ -211,7 +206,7 @@ export default async function HomePage() {
       {/* 4. Categorías Profesionales */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             Explora por Categoría Laboral
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
@@ -219,17 +214,17 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
           {JOB_CATEGORIES.map((cat) => (
             <Link
               key={cat.id}
               href={`/empleos?categoria=${encodeURIComponent(cat.name)}`}
-              className="bg-white p-4 rounded-xl border border-slate-200 hover:border-brand-300 hover:shadow-sm transition-all text-center space-y-2 group"
+              className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-card hover:shadow-card-hover hover:border-brand-400 hover:-translate-y-0.5 transition-all text-center space-y-2.5 group"
             >
-              <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-brand-50 text-slate-700 group-hover:text-brand-600 flex items-center justify-center mx-auto transition-colors">
-                <Briefcase className="w-4 h-4" />
+              <div className="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-brand-50 text-slate-700 group-hover:text-brand-600 flex items-center justify-center mx-auto transition-colors">
+                <Briefcase className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-xs sm:text-sm text-slate-800 group-hover:text-brand-600">
+              <h3 className="font-bold text-xs sm:text-sm text-slate-800 group-hover:text-brand-600 transition-colors">
                 {cat.name}
               </h3>
             </Link>
@@ -239,42 +234,42 @@ export default async function HomePage() {
 
       {/* 5. Bloque de Compromiso y Verificación (Ley 263) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-brand-950 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-xl grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div className="lg:col-span-2 space-y-4">
             <div className="inline-flex items-center gap-1.5 bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
               <ShieldCheck className="w-4 h-4" />
               Seguridad y Verificación Editorial Estricta
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
               ¿Por qué nuestra plataforma es segura para el postulante?
             </h2>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
               En Bolivia, la Ley N.º 263 castiga severamente la captación ilícita y las estafas disfrazadas de ofertas de trabajo. Nuestro equipo revisa cada vacante antes de su aprobación:
             </p>
-            <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-              <li className="flex items-start gap-2">
+            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300">
+              <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <span><strong>Cero cobros a postulantes:</strong> Bloqueamos cualquier aviso que pida depósitos, pago por uniformes, exámenes médicos o carpetas.</span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <span><strong>Enlace directo y transparente:</strong> Te comunicas directamente con la empresa o institución oficial vía correo, WhatsApp corporativo o portal oficial.</span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <span><strong>Canal de denuncia ciudadana:</strong> Cualquier aviso sospechoso puede ser reportado y se suspende para auditoría inmediata.</span>
               </li>
             </ul>
           </div>
 
-          <div className="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 text-center space-y-4">
-            <h3 className="font-bold text-white text-base">¿Representas a una empresa o institución?</h3>
+          <div className="bg-slate-800/90 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-slate-700/80 text-center space-y-4 shadow-lg">
+            <h3 className="font-extrabold text-white text-base">¿Representas a una empresa o institución?</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
               Publica tus convocatorias laborales legítimas de forma gratuita y llega a miles de candidatos paceños y alteños.
             </p>
             <Link
               href="/publicar-oferta"
-              className="inline-block w-full bg-brand-500 hover:bg-brand-400 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md transition-colors"
+              className="inline-block w-full bg-brand-500 hover:bg-brand-400 text-white font-bold text-xs sm:text-sm py-3.5 px-4 rounded-2xl shadow-md transition-all hover:shadow-lg"
             >
               Publicar Convocatoria Gratuita
             </Link>
@@ -282,30 +277,5 @@ export default async function HomePage() {
         </div>
       </section>
     </div>
-  );
-}
-
-function Building2Icon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
-      <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
-      <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
-      <path d="M10 6h4" />
-      <path d="M10 10h4" />
-      <path d="M10 14h4" />
-      <path d="M10 18h4" />
-    </svg>
   );
 }

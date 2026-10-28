@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, MapPin, ArrowRight } from 'lucide-react';
+import { Search, MapPin, ArrowRight, ChevronDown } from 'lucide-react';
 import { BOLIVIA_ZONES, CITIES } from '@/lib/data/bolivia-zones';
 
 interface SearchBarProps {
@@ -35,29 +35,29 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <form 
       onSubmit={handleSearch} 
-      className="bg-white p-3 sm:p-4 rounded-2xl shadow-lg border border-slate-200/80 max-w-4xl mx-auto"
+      className="bg-white p-2.5 sm:p-3.5 rounded-3xl shadow-xl border border-slate-200/90 max-w-5xl mx-auto backdrop-blur-sm"
       role="search"
       aria-label="Buscador de empleos en La Paz y El Alto"
     >
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-3 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 sm:gap-2.5 items-center">
         {/* Input de palabra clave */}
-        <div className="md:col-span-5 relative">
+        <div className="sm:col-span-2 lg:col-span-4 relative">
           <label htmlFor="search-keyword" className="sr-only">Palabra clave o puesto</label>
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-            <Search className="w-5 h-5" aria-hidden="true" />
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" aria-hidden="true" />
           </div>
           <input
             id="search-keyword"
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Puesto, empresa o profesión (ej. Cajero, Diseñador, Chofer)..."
-            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            placeholder="Puesto o profesión (ej. Cajero, Chofer, Diseñador)..."
+            className="w-full pl-10 pr-3.5 py-3 bg-slate-50/90 hover:bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all font-medium"
           />
         </div>
 
         {/* Selector de Ciudad */}
-        <div className="md:col-span-3 relative">
+        <div className="sm:col-span-1 lg:col-span-3 relative">
           <label htmlFor="search-city" className="sr-only">Ciudad</label>
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <MapPin className="w-4 h-4 text-brand-500" aria-hidden="true" />
@@ -67,41 +67,47 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             value={city}
             onChange={(e) => {
               setCity(e.target.value);
-              setZone(''); // Limpia la zona si cambia de ciudad
+              setZone('');
             }}
-            className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors"
+            className="w-full pl-10 pr-8 py-3 bg-slate-50/90 hover:bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all appearance-none cursor-pointer"
           >
             <option value="">Todas las ciudades</option>
             {CITIES.map((c) => (
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <ChevronDown className="w-4 h-4" />
+          </div>
         </div>
 
         {/* Selector de Zona */}
-        <div className="md:col-span-2 relative">
+        <div className="sm:col-span-1 lg:col-span-3 relative">
           <label htmlFor="search-zone" className="sr-only">Zona</label>
           <select
             id="search-zone"
             value={zone}
             onChange={(e) => setZone(e.target.value)}
-            className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-colors truncate"
+            className="w-full pl-3.5 pr-8 py-3 bg-slate-50/90 hover:bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all appearance-none cursor-pointer truncate"
           >
-            <option value="">Cualquier zona</option>
+            <option value="">Cualquier zona o barrio</option>
             {filteredZones.map((z) => (
               <option key={z.id} value={z.name}>{z.name}</option>
             ))}
           </select>
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <ChevronDown className="w-4 h-4" />
+          </div>
         </div>
 
-        {/* Botón de Enviar */}
-        <div className="md:col-span-2">
+        {/* Botón de Búsqueda */}
+        <div className="sm:col-span-2 lg:col-span-2">
           <button
             type="submit"
-            className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 focus:ring-2 focus:ring-brand-500 text-sm"
+            className="w-full bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white font-bold py-3 px-4 rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5 focus:ring-2 focus:ring-brand-500 text-xs sm:text-sm group"
           >
-            Buscar
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            <span>Buscar</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
           </button>
         </div>
       </div>
